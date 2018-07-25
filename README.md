@@ -83,5 +83,5 @@ TPCC workloads generation with Hash Index
 ---------------------------------------------
 
 1. Schema
-    * TPCC: 9 tables (Warehouse, Custormer etc.): ![TPCC tables](../master/img/TPCC_tables.png?raw=true)
+    * TPCC: 9 tables (Warehouse, Custormer etc.): ![Alt text](/img/TPCC_tables.png?raw=true "TPCC tables")
     * Only Payment and New Order transactions are modeled
