@@ -41,3 +41,11 @@ Run
 The DBMS can be run with 
 
     ./rundb
+
+
+YCSB/TPCC workload generation with Hash Index
+---------------------------------------------
+
+1. Schema
+    YCSB: 1 table
+    TPCC: 9 tables (Warehouse, Custormer) [[https://github.com/shingjan/DBx1000/blob/master/img/TPCC_tables.PNG|alt=octocat]]
