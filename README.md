@@ -47,5 +47,5 @@ YCSB/TPCC workload generation with Hash Index
 ---------------------------------------------
 
 1. Schema
-    YCSB: 1 table
-    TPCC: 9 tables (Warehouse, Custormer) [[https://github.com/shingjan/DBx1000/blob/master/img/TPCC_tables.PNG|alt=octocat]]
+    YCSB: Single table with 10 million records (11 columns with 1 primary-key, which is the column number from 1 to 10 million, column and 10 extra columns with valid value in first column only. Details and dump of table created by DBx1000 could be found in folder img)
+    TPCC: 9 tables (Warehouse, Custormer etc.) ![alt text](https://github.com/shingjan/DBx1000/blob/master/img/TPCC_tables.png)
