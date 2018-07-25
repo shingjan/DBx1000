@@ -40,14 +40,17 @@ Configurations can also be specified as command argument at runtime. Run the fol
     
     ./rundb -h
 
-YCSB/TPCC workloads generation with Hash Index
+YCSB workloads generation with Hash Index
 ---------------------------------------------
 
 1. Schema
 
     * YCSB: Single table with 10 million records (11 columns with 1 primary-key, which is the column number from 1 to 10 million, column and 10 extra columns with valid value in first column only. Details and dump of table created by DBx1000 could be found in folder /img/YCSB_table.dump)
 
-    * TPCC: 9 tables (Warehouse, Custormer etc.) ![TPCC tables](../blob/master/img/TPCC_tables.png?raw=true)
+    * Comments from Xiangyao:
+        1. There are 10 columns but the values are NULL except the first column whose value is "hello". The schema is defined in benchmarks/YCSB_schema.txt. For the concurrency control study in our papers, the values do not really matter so we didn't model them carefully.
+        2. The YCSB workload in DBx1000 is different from the original YCSB workload. We made these changes to make the workload more interesting to study concurrency control algorithms.
+
 
 2. Transaction
     - Table size: config_table_size/partition_count
@@ -63,7 +66,10 @@ YCSB/TPCC workloads generation with Hash Index
     - Each row has 10 additional column of 100 byte randomly generated string data each (char) rand() % (1<<8)
     - 10GB = (1024*1024*10) * (10x100)
 
-4. Workflow
+4. Hash Index
+    g_synth_table_size * 2 Buckets for a low probability of collision
+
+5. Workflow
     - Warmup the DB by running # transaction(s) first
     - Choose workloads (YCSB/TPCC/TEST)
     - Import schema from benchmarks/YCSB_schema.txt
@@ -72,3 +78,10 @@ YCSB/TPCC workloads generation with Hash Index
     - Initialize transactions with 16 YCSB queries each
     - For each transaction, there is a int64 txnid and transaction manager
     - Initialize thread list with THREAD_CNT
+
+TPCC workloads generation with Hash Index
+---------------------------------------------
+
+1. Schema
+    * TPCC: 9 tables (Warehouse, Custormer etc.): ![TPCC tables](../master/img/TPCC_tables.png?raw=true)
+    * Only Payment and New Order transactions are modeled
