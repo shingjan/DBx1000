@@ -100,7 +100,8 @@ TPCC workloads generation with Hash Index
     EXEC SQL UPDATE warehouse SET w_ytd = w_ytd + :h_amount <br>
             WHERE w_id=:w_id;
     ~~~ 
-        ```c++
+        
+    ~~~c++
         key = query->w_id;
         INDEX * index = _wl->i_warehouse;
 
@@ -124,17 +125,18 @@ TPCC workloads generation with Hash Index
         if (g_wh_update) {
             r_wh_local->set_value(W_YTD, w_ytd + query->h_amount);
         }
-        ```
+    ~~~
     
     2.
 
-    ~~~SQL
+    ~~~sql
     EXEC SQL SELECT w_street_1, w_street_2, w_city, w_state, w_zip, w_name <br>
         INTO :w_street_1, :w_street_2, :w_city, :w_state, :w_zip, :w_name <br>
         FROM warehouse <br>
         WHERE w_id=:w_id;
     ~~~
-        ```C++
+        
+    ~~~c++
         char w_name[11];
         //HERE ONLY W_NAME IS RETRIVED. OTHER VALUES SHOULD BE RETRIVED. 
         //NOT USED ALTHOUGH, ACCORDING TO SQL STATEMENT NO.2
@@ -148,15 +150,16 @@ TPCC workloads generation with Hash Index
         //------------------ADDED BY YJ----------------------//
         memcpy(w_name, tmp_str, 10);
         w_name[10] = '\0';
-        ```
+    ~~~
 
     3.
 
-    ~~~~sql
+    ~~~sql
     EXEC SQL UPDATE district SET d_ytd = d_ytd + :h_amount <br>
         WHERE d_w_id=:w_id AND d_id=:d_id;
-    ~~~~
-        ```c++
+    ~~~
+        
+    ~~~c++
         key = distKey(query->d_id, query->d_w_id);
         item = index_read(_wl->i_district, key, wh_to_part(w_id));
         assert(item != NULL);
@@ -169,18 +172,18 @@ TPCC workloads generation with Hash Index
         double d_ytd;
         r_dist_local->get_value(D_YTD, d_ytd);
         r_dist_local->set_value(D_YTD, d_ytd + query->h_amount);
-        ```
+    ~~~
 
     4.
 
-    ~~~~sql
+    ~~~sql
     EXEC SQL SELECT d_street_1, d_street_2, d_city, d_state, d_zip, d_name 
         INTO :d_street_1, :d_street_2, :d_city, :d_state, :d_zip, :d_name
         FROM district 
         WHERE d_w_id=:w_id AND d_id=:d_id;
-    ~~~~
+    ~~~
 
-    ```C++
+    ~~~c++
         double d_ytd;
         r_dist_local->get_value(D_YTD, d_ytd);
         r_dist_local->set_value(D_YTD, d_ytd + query->h_amount);
@@ -197,20 +200,20 @@ TPCC workloads generation with Hash Index
         //------------------ADDED BY YJ----------------------//
         memcpy(d_name, tmp_str, 10);
         d_name[10] = '\0';
-    ```
+    ~~~
 
     5.
     if(byname) 
-    ~~~~sql
+    ~~~sql
         -- This SQL statement is not implemented in DBx1000
         EXEC SQL SELECT count(c_id) INTO :namecnt
             FROM customer
             WHERE c_last=:c_last AND c_d_id=:c_d_id AND c_w_id=:c_w_id;
-    ~~~~
+    ~~~
 
     6.
 
-    ~~~~sql
+    ~~~sql
         EXEC SQL DECLARE c_byname CURSOR FOR
             SELECT c_first, c_middle, c_id, c_street_1, c_street_2, c_city, c_state,
             c_zip, c_phone, c_credit, c_credit_lim, c_discount, c_balance, c_since
@@ -218,9 +221,9 @@ TPCC workloads generation with Hash Index
             WHERE c_w_id=:c_w_id AND c_d_id=:c_d_id AND c_last=:c_last
             ORDER BY c_first;
             EXEC SQL OPEN c_byname;
-    ~~~~
+    ~~~
 
-    ```c++
+    ~~~c++
             uint64_t key = custNPKey(query->c_last, query->c_d_id, query->c_w_id);
             // XXX: the list is not sorted. But let's assume it's sorted... 
             // The performance won't be much different.
@@ -238,7 +241,7 @@ TPCC workloads generation with Hash Index
                     mid = mid->next;
             }
             r_cust = ((row_t *)mid->location);       
-    ```
+    ~~~
 
     7.
 
@@ -266,7 +269,7 @@ TPCC workloads generation with Hash Index
             WHERE c_w_id=:c_w_id AND c_d_id=:c_d_id AND c_id=:c_id;
     ~~~~
 
-    ```C++
+    ~~~C++
         key = custKey(query->c_id, query->c_d_id, query->c_w_id);
         INDEX * index = _wl->i_customer_id;
         item = index_read(index, key, wh_to_part(c_w_id));
@@ -291,7 +294,7 @@ TPCC workloads generation with Hash Index
         //char * tmp_str5 = r_cust_local->get_value(C_BALANCE);
         //char * tmp_str5 = r_cust_local->get_value(C_SINCE);
         //------------------ADDED BY YJ----------------------//
-    ```
+    ~~~
 
     9.
 
