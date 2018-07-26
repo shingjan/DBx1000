@@ -40,6 +40,13 @@ Configurations can also be specified as command argument at runtime. Run the fol
     
     ./rundb -h
 
+Summary from YJ
+===============
+
+1. YCSB worklaods generation
+2. TPCC workloads generation
+3. Hash Index
+
 YCSB workloads generation with Hash Index
 ---------------------------------------------
 
@@ -47,9 +54,9 @@ YCSB workloads generation with Hash Index
 
     * YCSB: Single table with 10 million records (11 columns with 1 primary-key, which is the column number from 1 to 10 million, column and 10 extra columns with valid value in first column only. Details and dump of table created by DBx1000 could be found in folder /img/YCSB_table.dump)
 
-    * Comments from Xiangyao:
-        1. There are 10 columns but the values are NULL except the first column whose value is "hello". The schema is defined in benchmarks/YCSB_schema.txt. For the concurrency control study in our papers, the values do not really matter so we didn't model them carefully.
-        2. The YCSB workload in DBx1000 is different from the original YCSB workload. We made these changes to make the workload more interesting to study concurrency control algorithms.
+    * **Comments from Xiangyao**:
+        1. There are 10 columns but the values are NULL except the first column whose value is "hello". The schema is defined in benchmarks/YCSB_schema.txt. For the concurrency control study in our papers, *the values do not really matter so we didn't model them carefully*. - To achieve atomic operations maybe?
+        2. The YCSB workload in DBx1000 is *different from the original YCSB workload*. We made these changes to make the workload more interesting to study concurrency control algorithms.
 
 
 2. Transaction
@@ -83,5 +90,5 @@ TPCC workloads generation with Hash Index
 ---------------------------------------------
 
 1. Schema
-    * TPCC: 9 tables (Warehouse, Custormer etc.): ![Alt text](/img/TPCC_tables.png?raw=true "TPCC tables")
-    * Only Payment and New Order transactions are modeled
+    * TPCC: 9 tables (Warehouse, Custormer etc.): ![Alt text](/img/TPCC_tables.PNG?raw=true "TPCC tables")
+    * Only **Payment and New Order** transactions are modeled
