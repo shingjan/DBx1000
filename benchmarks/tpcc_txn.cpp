@@ -255,18 +255,18 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 	row_t * r_hist;
 	uint64_t row_id;
 	_wl->t_history->get_new_row(r_hist, 0, row_id);
-	uint64_t c_id;
-	uint64_t c_d_id;
-	uint64_t d_id;
-	double h_amount;
-	r_hist->set_value(H_C_ID, c_id);
-	r_hist->set_value(H_C_D_ID, c_d_id);
+	//uint64_t c_id;
+	//uint64_t c_d_id;
+	//uint64_t d_id;
+	//double h_amount;
+	r_hist->set_value(H_C_ID, query->c_id);
+	r_hist->set_value(H_C_D_ID, query->c_d_id);
 	r_hist->set_value(H_C_W_ID, c_w_id);
-	r_hist->set_value(H_D_ID, d_id);
+	r_hist->set_value(H_D_ID, query->d_id);
 	r_hist->set_value(H_W_ID, w_id);
 	int64_t date = 2013;		
 	r_hist->set_value(H_DATE, date);
-	r_hist->set_value(H_AMOUNT, h_amount);
+	r_hist->set_value(H_AMOUNT, query->h_amount);
 #if !TPCC_SMALL
 	r_hist->set_value(H_DATA, h_data);
 #endif
