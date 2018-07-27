@@ -47,6 +47,8 @@ Summary by YJ
 2. TPCC workloads generation
 3. Hash Index
 
+https://github.com/shingjan/DBx1000/blob/9a507f5f7aa86ca6e16fd3fed3436338e9d56458/benchmarks/tpcc_txn.cpp#L56-L75
+
 YCSB workloads generation
 -------------------------
 
@@ -63,7 +65,7 @@ YCSB workloads generation
 - Transaction
     - Table size: config_table_size/partition_count
     - Model: Zipf (0 < theta < 1 is the skew) from paper - Quickly Generating Billion Record Synthetic Databases
-    - Query: Single Key/Value query with Zipf-generated uint64 rowid and randomly generated value rint <= 256
+    - Query: Single Key/Value query with Zipf-generated uint64 rowid and randomly generated value - rint <= 256
     - Transaction: default 16 queries per transaction. Can be altered
     - GetNextQuery: &queries[q_idx++]/run_txn - Sequential Access for query and transaction
 
@@ -96,7 +98,7 @@ TPCC workloads generation with Hash Index
     
     1.
 
-    ~~~SQL
+    ~~~sql
     EXEC SQL UPDATE warehouse SET w_ytd = w_ytd + :h_amount <br>
             WHERE w_id=:w_id;
     ~~~ 
@@ -202,8 +204,7 @@ TPCC workloads generation with Hash Index
         d_name[10] = '\0';
     ~~~
 
-    5.
-    if(byname) 
+    5. if(byname) 
     ~~~sql
         -- This SQL statement is not implemented in DBx1000
         EXEC SQL SELECT count(c_id) INTO :namecnt
@@ -256,8 +257,7 @@ TPCC workloads generation with Hash Index
         EXEC SQL CLOSE c_byname;
     ~~~~
 
-    8.
-    else
+    8. else
     ~~~~sql
         EXEC SQL SELECT c_first, c_middle, c_last, c_street_1, c_street_2,
             c_city, c_state, c_zip, c_phone, c_credit, c_credit_lim,
@@ -269,7 +269,7 @@ TPCC workloads generation with Hash Index
             WHERE c_w_id=:c_w_id AND c_d_id=:c_d_id AND c_id=:c_id;
     ~~~~
 
-    ~~~C++
+    ~~~c++
         key = custKey(query->c_id, query->c_d_id, query->c_w_id);
         INDEX * index = _wl->i_customer_id;
         item = index_read(index, key, wh_to_part(c_w_id));
@@ -296,11 +296,9 @@ TPCC workloads generation with Hash Index
         //------------------ADDED BY YJ----------------------//
     ~~~
 
-    9.
-
-    if ( strstr(c_credit, "BC") ) 
+    9. if ( strstr(c_credit, "BC") ) 
     
-    ~~~SQL
+    ~~~sql
             EXEC SQL SELECT c_data
             INTO :c_data
             FROM customer
@@ -318,9 +316,7 @@ TPCC workloads generation with Hash Index
             
     ~~~
 
-    10.
-
-    else
+    10. else
 
     ~~~sql
         EXEC SQL UPDATE customer SET c_balance = :c_balance, c_data = :c_new_data
