@@ -43,8 +43,8 @@ Configurations can also be specified as command argument at runtime. Run the fol
 Summary by YJ
 ===============
 
-1. YCSB worklaods generation: [Payment](PAYMENT.md), [New Order](NEW_ORDER.md)
-2. [TPCC workloads generation](TPCC.md)
+1. TPCC worklaods generation: [Payment](PAYMENT.md), [New Order](NEW_ORDER.md)
+2. [YCSB workloads generation](YCSB.md)
 3. [Hash Index](HASH.md)
 4. [Configuration](CONFIG.md)
 
