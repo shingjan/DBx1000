@@ -1,8 +1,8 @@
 TPCC workloads generation with Hash Index
 -----------------------------------------
 
-- Schema
-    * TPCC: 9 tables (Warehouse, Custormer etc.): 
+- Summary
+    * Schema: 9 tables (Warehouse, Custormer etc.): 
     
     ![Alt text](/img/TPCC_tables.PNG?raw=true "TPCC tables")
     
@@ -10,6 +10,13 @@ TPCC workloads generation with Hash Index
 
 - **Payment Transactionn** (benchmark/tpcc_txn.cpp/tpcc_txn_man::run_payment(tpcc_query * query))
     
+    Summary:
+
+        1. 11 SQL statements in total. Statements 1, 3, 6, and 10 are complete.
+        2. Statements 2, 4, 8 are implemented but incomplete. (Fixed in source code)
+        3. Statements 9 and 11 are implemented but commented. (Fixed in source code) 
+        4. Statements 5, 7 are not implemented.
+
     1.
 
     ~~~sql

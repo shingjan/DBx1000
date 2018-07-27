@@ -1,5 +1,11 @@
 - **New Order Transactionn** (benchmark/tpcc_txn.cpp/tpcc_txn_man::run_new_order(tpcc_query * query))
 
+    Summary:
+
+        1. 9 SQL statements in total. Statements 3 and 8 are complete.
+        2. Statements 1, 2, 6, 7 are implemented but incomplete. (Fixed in source code)
+        3. Statements 4, 5, 9 are implemented but commented. (Fixed in source code)
+
     1.
 
     ~~~sql
@@ -49,8 +55,8 @@
     EXEC SQL SELECT d_next_o_id, d_tax
         INTO :d_next_o_id, :d_tax
         FROM district WHERE d_id = :d_id AND d_w_id = :w_id;
-    EXEC SQL UPDATE d istrict SET d _next_o_id = :d _next_o_id + 1
-        WH ERE d _id = :d_id AN D d _w _id = :w _id ;
+    EXEC SQL UPDATE d istrict SET d_next_o_id = :d_next_o_id + 1
+        WHERE d_id = :d_id AN D d _w _id = :w _id ;
     ~~~
 
     ~~~c++
@@ -113,3 +119,120 @@
 
     6.
     SQL statements 6 - 9 are in a for loop
+
+    ~~~sql
+        EXEC SQL SELECT i_price, i_name , i_data
+            INTO :i_price, :i_name, :i_data
+            FROM item
+            WHERE i_id = :ol_i_id;
+    ~~~
+
+    ~~~c++
+        key = ol_i_id;
+        item = index_read(_wl->i_item, key, 0);
+        assert(item != NULL);
+        row_t * r_item = ((row_t *)item->location);
+
+        row_t * r_item_local = get_row(r_item, RD);
+        if (r_item_local == NULL) {
+            return finish(Abort);
+        }
+        // RETRIEVAL OF i_name AND i_data ARE COMMENTED
+        int64_t i_price;
+        //char * i_name;
+        //char * i_data;
+        r_item_local->get_value(I_PRICE, i_price);
+        //i_name = r_item_local->get_value(I_NAME);
+        //i_data = r_item_local->get_value(I_DATA);
+    ~~~
+
+    7.
+    ~~~sql
+        EXEC SQL SELECT s_quantity, s_data,
+                s_dist_01, s_dist_02, s_dist_03, s_dist_04, s_dist_05,
+                s_dist_06, s_dist_07, s_dist_08, s_dist_09, s_dist_10
+            INTO :s_quantity, :s_data,
+                :s_dist_01, :s_dist_02, :s_dist_03, :s_dist_04, :s_dist_05,
+                :s_dist_06, :s_dist_07, :s_dist_08, :s_dist_09, :s_dist_10
+            FROM stock
+            WHERE s_i_id = :ol_i_id AND s_w_id = :ol_supply_w_id;
+    ~~~
+
+    ~~~c++
+        uint64_t stock_key = stockKey(ol_i_id, ol_supply_w_id);
+        INDEX * stock_index = _wl->i_stock;
+        itemid_t * stock_item;
+        index_read(stock_index, stock_key, wh_to_part(ol_supply_w_id), stock_item);
+        assert(item != NULL);
+        row_t * r_stock = ((row_t *)stock_item->location);
+        row_t * r_stock_local = get_row(r_stock, WR);
+        if (r_stock_local == NULL) {
+            return finish(Abort);
+        }
+        
+        // XXX s_dist_xx are not retrieved.
+        UInt64 s_quantity;
+        int64_t s_remote_cnt;
+        s_quantity = *(int64_t *)r_stock_local->get_value(S_QUANTITY);
+        #if !TPCC_SMALL
+        int64_t s_ytd;
+        int64_t s_order_cnt;
+        //char * s_data = "test";
+        r_stock_local->get_value(S_YTD, s_ytd);
+        r_stock_local->set_value(S_YTD, s_ytd + ol_quantity);
+        r_stock_local->get_value(S_ORDER_CNT, s_order_cnt);
+        r_stock_local->set_value(S_ORDER_CNT, s_order_cnt + 1);
+        //s_data = r_stock_local->get_value(S_DATA);
+        #endif
+    ~~~
+
+    8.
+
+    ~~~sql
+        EXEC SQL UPDATE stock SET s_quantity = :s_quantity
+            WHERE s_i_id = :ol_i_id
+            AND s_w_id = :ol_supply_w_id;
+    ~~~
+
+    ~~~c++
+        uint64_t quantity;
+        if (s_quantity > ol_quantity + 10) {
+            quantity = s_quantity - ol_quantity;
+        } else {
+            quantity = s_quantity - ol_quantity + 91;
+        }
+        r_stock_local->set_value(S_QUANTITY, &quantity);
+    ~~~
+
+    9.
+
+    ~~~sql
+        EXEC SQL INSERT
+            INTO order_line(ol_o_id, ol_d_id, ol_w_id, ol_number,
+                ol_i_id, ol_supply_w_id,
+                ol_quantity, ol_amount, ol_dist_info)
+            VALUES(:o_id, :d_id, :w_id, :ol_number,
+                :ol_i_id, :ol_supply_w_id,
+                :ol_quantity, :ol_amount, :ol_dist_info);
+    ~~~
+
+    ~~~c++
+        //IMPLEMENTATION OF THIS SQL STATEMENT IS COMMENTED
+        // XXX district info is not inserted.
+        //      row_t * r_ol;
+        //      uint64_t row_id;
+        //      _wl->t_orderline->get_new_row(r_ol, 0, row_id);
+        //      r_ol->set_value(OL_O_ID, &o_id);
+        //      r_ol->set_value(OL_D_ID, &d_id);
+        //      r_ol->set_value(OL_W_ID, &w_id);
+        //      r_ol->set_value(OL_NUMBER, &ol_number);
+        //      r_ol->set_value(OL_I_ID, &ol_i_id);
+        #if !TPCC_SMALL
+        //      int w_tax=1, d_tax=1;
+        //      int64_t ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
+        //      r_ol->set_value(OL_SUPPLY_W_ID, &ol_supply_w_id);
+        //      r_ol->set_value(OL_QUANTITY, &ol_quantity);
+        //      r_ol->set_value(OL_AMOUNT, &ol_amount);
+        #endif      
+        //      insert_row(r_ol, _wl->t_orderline);
+    ~~~
