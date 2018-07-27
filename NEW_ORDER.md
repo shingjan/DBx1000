@@ -3,8 +3,8 @@
     Summary:
 
         1. 9 SQL statements in total. Statements 3 and 8 are complete.
-        2. Statements 1, 2, 6, 7 are implemented but incomplete. (Fixed in source code)
-        3. Statements 4, 5, 9 are implemented but commented. (Fixed in source code)
+        2. Statements 1, 2, 6 and 7 are implemented but incomplete. (Fixed in source code)
+        3. Statements 4, 5 and 9 are implemented but commented. (Fixed in source code)
 
     1.
 
