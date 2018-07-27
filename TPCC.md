@@ -281,7 +281,7 @@ TPCC workloads generation with Hash Index
     //  insert_row(r_hist, _wl->t_history); 
     ~~~
 
-    - **New Order Transactionn** (benchmark/tpcc_txn.cpp/tpcc_txn_man::run_new_order(tpcc_query * query))
+- **New Order Transactionn** (benchmark/tpcc_txn.cpp/tpcc_txn_man::run_new_order(tpcc_query * query))
 
     1. 
 
