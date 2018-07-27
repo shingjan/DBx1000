@@ -189,7 +189,7 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
         char * c_middle = r_cust_local1->get_value(C_MIDDLE);
         char * c_last = r_cust_local1->get_value(C_LAST);
         char * tmp_c_street_1 = r_cust_local1->get_value(C_STREET_1);
-        char * tmp_c_street_1 = r_cust_local1->get_value(C_STREET_2);
+        char * tmp_c_street_2 = r_cust_local1->get_value(C_STREET_2);
         char * tmp_c_city = r_cust_local1->get_value(C_CITY);
         char * tmp_c_state = r_cust_local1->get_value(C_STATE);
         char * tmp_c_zip = r_cust_local1->get_value(C_ZIP);
