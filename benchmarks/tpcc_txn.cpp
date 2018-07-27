@@ -232,8 +232,8 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 			WHERE c_w_id=:c_w_id AND c_d_id=:c_d_id AND c_id=:c_id;
 		+=====================================================*/
 	  	char c_new_data[501];
-	  	sprintf(c_new_data,"| %4d %2d %4d %2d %4d $%7.2f",
-	      	c_id, c_d_id, c_w_id, d_id, w_id, query->h_amount);
+	  	//sprintf(c_new_data,"| %4d %2d %4d %2d %4d $%7.2f",
+	    //  	c_id, c_d_id, c_w_id, d_id, w_id, query->h_amount);
 		char * c_data = r_cust->get_value("C_DATA");
 	  	strncat(c_new_data, c_data, 500 - strlen(c_new_data));
 		r_cust->set_value("C_DATA", c_new_data);
@@ -255,6 +255,10 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 	row_t * r_hist;
 	uint64_t row_id;
 	_wl->t_history->get_new_row(r_hist, 0, row_id);
+	uint64_t c_id;
+	uint64_t c_d_id;
+	uint64_t d_id;
+	double h_amount;
 	r_hist->set_value(H_C_ID, c_id);
 	r_hist->set_value(H_C_D_ID, c_d_id);
 	r_hist->set_value(H_C_W_ID, c_w_id);
