@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--[if IE 9]>
+<html class="ie ie9" lang="en-US">
+<![endif]-->
+<html lang="en-US">
+
+<p>Benchmark Cassandra with Cassandra-stress tool & CockroachDb with YCSB.</p>
+<ol>
+<li style="list-style-type: none;">
+<ol>
+<li>Environment:
+<ul>
+<li>10 Ubuntu server nodes w. 1 Ubuntu client node</li>
+<li>Cassandra 3.11.2 binaries</li>
+<li>CockroachDB 2.0.2 binaries</li>
+</ul>
+</li>
+<li>Cassandra Benchmark with Cassandra-stress tool
+<ul>
+<li>Install Java8 via:
+<pre>sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer</pre>
+</li>
+<li>Download Cassandra via:
+<pre>wget http://www-us.apache.org/dist/cassandra/3.11.2/apache-cassandra-3.11.2-bin.tar.gz
+</pre>
+</li>
+<li>Make the following changes to conf/cassandra.yaml to setup the cluster
+<ul>
+<li><em>seeds</em>: Interneal IP address of each seed node. DO NOT MAKE ALL NODES SEED NODES. It is a best practice to have more than one seed node per datacenter. In our 10-node cluster, there is one seed node &#8211; 10.6.0.4</li>
+<li><em>listen_address</em>: The IP address or hostname that Cassandra binds to for conencting to other Cassandra nodes. A.K.A. the private IP address of the currect node</li>
+<li>[Optional] <em>rpc_address</em>: Private IP address of the current node.</li>
+</ul>
+</li>
+<li>Start, Stop and Monitor Cassandra cluster
+<pre>./bin/cassandra &amp;
+pkill -9 java
+./bin/nodetool status
+</pre>
+</li>
+<li>Run Cassandra-stress tool<br />
+<code>Populate the cluster with 1 million record (default) and 500 threads</code></p>
+<pre>./tools/bin/cassandra-stress write -node 10.6.0.4,10.6.0.5,10.6.0.6,10.6.0.12,10.6.0.13,10.6.0.14,10.6.0.15,10.6.0.16,10.6.0.17,10.6.0.18 -rate threads=500</pre>
+<p><code>Test the cluster with 1 million read-requests and 500 threads </code></p>
+<pre>./tools/bin/cassandra-stress read -node 10.6.0.4,10.6.0.5,10.6.0.6,10.6.0.12,10.6.0.13,10.6.0.14,10.6.0.15,10.6.0.16,10.6.0.17,10.6.0.18 -rate threads=500</pre>
+<p><code>Test the cluster with a mixed workload (R/W: 50%:50%) and 500 threads</code></p>
+<pre>./tools/bin/cassandra-stress mixed ratio\(write=1,read=1\) -node 10.6.0.4,10.6.0.5,10.6.0.6,10.6.0.12,10.6.0.13,10.6.0.14,10.6.0.15,10.6.0.16,10.6.0.17,10.6.0.18 -rate threads=500</pre>
+</li>
+</ul>
+</li>
+<li>Cockroach Benchmark via YCSB
+<ul>
+<li>Install Cockroach cluster<br />
+<code>Download Cockroach binaries</code></p>
+<pre>wget -qO- https://binaries.cockroachdb.com/cockroach-v2.0.2.linux-amd64.tgz | tar  xvz</pre>
+<p><code>Expand the limit on the number of file descriptors a process may have</code></p>
+<pre>ulimit -HSn 51200</pre>
+<p><code>Launch the root node</code></p>
+<pre>nohup cockroach start --cache=0.4 --max-sql-memory=0.4 --insecure --host=10.6.0.4 &amp;</pre>
+<p><code>Launch other nodes to join this cluster</code></p>
+<pre>nohup cockroach start --cache=0.4 --max-sql-memory=0.4 --insecure --host=10.6.0.5 --join=10.6.0.4:26257 &amp;</pre>
+<p><code>Verify the cluster is successfully launched by visiting on client node: </code></p>
+<pre>https://10.6.0.4:8080</pre>
+<p><code>Kill Cockroach process on current node</code></p>
+<pre>pkill -9 cockroach</pre>
+</li>
+<li>Create YCSB database and usertable<br />
+<code>Open SQL shell from any node within our cluster</code></p>
+<pre>./cockroach sql --insecure --host=10.6.0.4</pre>
+<p><code>Create database "ycsb" if not exists</code></p>
+<pre>create database ycsb;</pre>
+<p><code>Create single table "usertable" if not exists</code></p>
+<pre>CREATE TABLE usertable ( YCSB_KEY VARCHAR(255) PRIMARY KEY, 
+	FIELD0 TEXT, FIELD1 TEXT, 
+	FIELD2 TEXT, FIELD3 TEXT, 
+	FIELD4 TEXT, FIELD5 TEXT, 
+	FIELD6 TEXT, FIELD7 TEXT,
+	FIELD8 TEXT, FIELD9 TEXT );</pre>
+</li>
+<li>Launch HA proxy as load balancer<br />
+<code>Synchronize time on each node since Cockroach node fails easily if out of sync</code></p>
+<pre>sudo apt-get install ntp
+sudo service stop ntp</pre>
+<p><code>Edit /etc/ntp.conf by commenting any lines start with "server" or "pool" and add:</code></p>
+<pre>server ntp.int.scaleway.com iburst
+server ntp.ubuntu.com iburst</pre>
+<p><code>Start ntp and verify if the server has been changed</code></p>
+<pre>sudo service start ntp
+sudo ntpq -p
+</pre>
+<p><code>Output should be something like this</code></p>
+<pre>     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+ 10.1.31.39      .INIT.          16 u    - 1024    0    0.000    0.000   0.000
+*alphyn.canonica 192.53.103.108   2 u  832 1024  377  237.330   -0.197   0.648
+</pre>
+<p><code>Generate HAproxy configuration file from root(primary) node</code></p>
+<pre>./cockroach gen haproxy --insecure --host=10.6.0.4 --port=26257</pre>
+<p><code>Copy it to the client node, install HAproxy and run it with this .cfg file</code></p>
+<pre>scp haproxy.cfg elastas@10.6.0.9:~/
+sudo apt-get install haproxy
+ulimit -HSn 51200
+haproxy -f haproxy.cfg</pre>
+</li>
+<li>Run YCSB script<br />
+<code>Download YCSB binaries to client node</code></p>
+<pre>https://github.com/brianfrankcooper/YCSB/releases</pre>
+<p><code>Load data from workloads</code></p>
+<pre>python bin/ycsb load jdbc -P workloads/workloadc -p db.driver=org.postgresql.Driver -p db.url=jdbc:postgresql://10.6.0.9:26257/ycsb -p db.user=root -p db.passwd=root -p recordcount=200000 -threads 32 -p operationcount=500000 -p db.batchsize=100 -s</pre>
+<p><code>Run workloads</code></p>
+<pre>python bin/ycsb run jdbc -P workloads/workloadRO -p db.driver=org.postgresql.Driver -p db.url=jdbc:postgresql://10.6.0.9:26257/ycsb -p db.user=root -p db.passwd=root -p recordcount=200000 -threads 1024 -p operationcount=500000 -p db.batchsize=100 -s</pre>
+</li>
+<li>Since I have done this benchmarks a couple times, in order to simplify this process, I put a start.sh file in each cockroach folder. With our own servers, since all binaries are downloaded with cluster &amp; haproxy configured, you only need to change to cockroach directory and run start.sh (start-haproxy.sh for client node).</li>
+<li>For Read-only &amp; Write-only workloads, change directory to ycsb-ro/ycsb-wo on ubuntu client node and run start.sh</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>Useful links:</p>
+<ol>
+<li><a href="https://docs.datastax.com/en/cassandra/3.0/cassandra/tools/toolsCStress.html">Cassandra-stress tool</a></li>
+<li><a href="https://docs.datastax.com/en/cassandra/2.1/cassandra/tools/toolsCStressOutput_c.html">Interpreting the output of cassandra-stress</a></li>
+<li><a href="http://cassandra.apache.org/doc/latest/tools/cassandra_stress.html">Cassandra-stress docs</a></li>
+<li><a href="https://www.cockroachlabs.com/docs/v2.0/learn-cockroachdb-sql.html#main-content">Learn CockroachDB SQL</a></li>
+<li><a href="https://www.scaleway.com/docs/how-to-configure-a-cockroachdb-cluster/">Install a multi-node Cockroach Database with HA proxy</a></li>
+<li><a href="https://www.cockroachlabs.com/docs/stable/cluster-setup-troubleshooting.html">Troubleshoot Cluster Setup</a></li>
+</ol>
+		</div><!-- .entry-content -->
+	</div><!-- .entry-inner -->
+	
+</article><!-- #post-## -->
+					</main><!-- #main -->
+				</div><!-- #primary -->
+
+			
+			
+			</div><!-- .wrap-inside -->
+		</div><!-- .wrap -->
+	</div><!-- #content -->
+</body>
+</html>
