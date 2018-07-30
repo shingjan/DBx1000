@@ -48,6 +48,7 @@ Summary by YJ
 3. [Hash Index](HASH.md)
 4. [Configuration](CONFIG.md)
 5. [Benchmark Cassandra with Cassandra-stress & Cockroach with YCSB](http://htmlpreview.github.io/?https://github.com/shingjan/DBx1000/blob/master/Cassandra-Cockroach-Benchmark.html)
+6. [Discussion with Xiangyao, author of DBx1000](https://github.com/yxymit/DBx1000/issues/17)
 
 
 
