@@ -188,7 +188,7 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 		//------------------Patch No. 3----------------------//
 		//------------------ADDED BY YJ----------------------//
         row_t * r_cust_local1 = get_row(r_cust, WR);
-        if (r_cust_local == NULL) {
+        if (r_cust_local1 == NULL) {
 			return finish(Abort);
 		}
         tmp_str1 = r_cust_local1->get_value(C_FIRST);
