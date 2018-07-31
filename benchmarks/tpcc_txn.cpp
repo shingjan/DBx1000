@@ -184,10 +184,10 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 		INDEX * index = _wl->i_customer_id;
 		item = index_read(index, key, wh_to_part(c_w_id));
 		assert(item != NULL);
-		r_cust = (row_t *) item->location;
+		row_t * r_cust_1 = (row_t *) item->location;
 		//------------------Patch No. 3----------------------//
 		//------------------ADDED BY YJ----------------------//
-        row_t * r_cust_local1 = get_row(r_cust, WR);
+        row_t * r_cust_local1 = get_row(r_cust_1, WR);
         if (r_cust_local1 == NULL) {
         	printf("abort");
 			return finish(Abort);
