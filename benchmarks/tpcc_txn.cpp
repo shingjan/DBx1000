@@ -191,12 +191,12 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
         if (r_cust_local1 == NULL) {
 			return finish(Abort);
 		}
-        tmp_str1 = r_cust_local1->get_value(C_FIRST);
-        std::cout << tmp_str1 << '\n';
-        tmp_str2 = r_cust_local1->get_value(C_MIDDLE);
-        tmp_str3 = r_cust_local1->get_value(C_LAST);
-        tmp_str4 = r_cust_local1->get_value(C_STREET_1);
-        tmp_str5 = r_cust_local1->get_value(C_STREET_2);
+        // tmp_str1 = r_cust_local1->get_value(C_FIRST);
+        // std::cout << tmp_str1 << '\n';
+        // tmp_str2 = r_cust_local1->get_value(C_MIDDLE);
+        // tmp_str3 = r_cust_local1->get_value(C_LAST);
+        // tmp_str4 = r_cust_local1->get_value(C_STREET_1);
+        // tmp_str5 = r_cust_local1->get_value(C_STREET_2);
         // char * tmp_c_city = r_cust_local1->get_value(C_CITY);
         // char * tmp_c_state = r_cust_local1->get_value(C_STATE);
         // char * tmp_c_zip = r_cust_local1->get_value(C_ZIP);
