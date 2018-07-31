@@ -260,21 +260,21 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 	  +=============================================================================*/
 	//------------------Patch No. 5----------------------//
 	//----------------Uncommented by YJ------------------//
-// 	row_t * r_hist;
-// 	uint64_t row_id;
-// 	_wl->t_history->get_new_row(r_hist, 0, row_id);
-// 	r_hist->set_value(H_C_ID, query->c_id);
-// 	r_hist->set_value(H_C_D_ID, query->c_d_id);
-// 	r_hist->set_value(H_C_W_ID, c_w_id);
-// 	r_hist->set_value(H_D_ID, query->d_id);
-// 	r_hist->set_value(H_W_ID, w_id);
-// 	int64_t date = 2013;		
-// 	r_hist->set_value(H_DATE, date);
-// 	r_hist->set_value(H_AMOUNT, query->h_amount);
-// #if !TPCC_SMALL
-// 	r_hist->set_value(H_DATA, h_data);
-// #endif
-// 	insert_row(r_hist, _wl->t_history);
+	row_t * r_hist;
+	uint64_t row_id;
+	_wl->t_history->get_new_row(r_hist, 0, row_id);
+	r_hist->set_value(H_C_ID, query->c_id);
+	r_hist->set_value(H_C_D_ID, query->c_d_id);
+	r_hist->set_value(H_C_W_ID, c_w_id);
+	r_hist->set_value(H_D_ID, query->d_id);
+	r_hist->set_value(H_W_ID, w_id);
+	int64_t date = 2013;		
+	r_hist->set_value(H_DATE, date);
+	r_hist->set_value(H_AMOUNT, query->h_amount);
+#if !TPCC_SMALL
+	r_hist->set_value(H_DATA, h_data);
+#endif
+	insert_row(r_hist, _wl->t_history);
 	//----------------Uncommented by YJ------------------//
 
 	assert( rc == RCOK );
