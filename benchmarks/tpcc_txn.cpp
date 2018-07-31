@@ -187,21 +187,21 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 		r_cust = (row_t *) item->location;
 		//------------------Patch No. 3----------------------//
 		//------------------ADDED BY YJ----------------------//
-        // row_t * r_cust_local1 = get_row(r_cust, RD);
-        // char * tmp_c_first = r_cust_local1->get_value(C_FIRST);
-        // char * c_middle = r_cust_local1->get_value(C_MIDDLE);
-        // char * c_last = r_cust_local1->get_value(C_LAST);
-        // char * tmp_c_street_1 = r_cust_local1->get_value(C_STREET_1);
-        // char * tmp_c_street_2 = r_cust_local1->get_value(C_STREET_2);
-        // char * tmp_c_city = r_cust_local1->get_value(C_CITY);
-        // char * tmp_c_state = r_cust_local1->get_value(C_STATE);
-        // char * tmp_c_zip = r_cust_local1->get_value(C_ZIP);
-        // char * tmp_c_phone = r_cust_local1->get_value(C_PHONE);
-        // char * tmp_c_credit = r_cust_local1->get_value(C_CREDIT);
-        // char * tmp_credit_lim = r_cust_local1->get_value(C_CREDIT_LIM);
-        // char * tmp_c_discount = r_cust_local1->get_value(C_DISCOUNT);
-        // char * tmp_c_balance = r_cust_local1->get_value(C_BALANCE);
-        // char * tmp_c_since = r_cust_local1->get_value(C_SINCE);
+        row_t * r_cust_local1 = get_row(r_cust, RD);
+        char * tmp_c_first = r_cust_local1->get_value(C_FIRST);
+        char * c_middle = r_cust_local1->get_value(C_MIDDLE);
+        char * c_last = r_cust_local1->get_value(C_LAST);
+        char * tmp_c_street_1 = r_cust_local1->get_value(C_STREET_1);
+        char * tmp_c_street_2 = r_cust_local1->get_value(C_STREET_2);
+        char * tmp_c_city = r_cust_local1->get_value(C_CITY);
+        char * tmp_c_state = r_cust_local1->get_value(C_STATE);
+        char * tmp_c_zip = r_cust_local1->get_value(C_ZIP);
+        char * tmp_c_phone = r_cust_local1->get_value(C_PHONE);
+        char * tmp_c_credit = r_cust_local1->get_value(C_CREDIT);
+        char * tmp_credit_lim = r_cust_local1->get_value(C_CREDIT_LIM);
+        char * tmp_c_discount = r_cust_local1->get_value(C_DISCOUNT);
+        char * tmp_c_balance = r_cust_local1->get_value(C_BALANCE);
+        char * tmp_c_since = r_cust_local1->get_value(C_SINCE);
         //------------------ADDED BY YJ----------------------//
 	}
 
