@@ -124,7 +124,6 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 
 
 	row_t * r_cust;
-	uint64_t count;
 	if (query->by_last_name) { 
 		/*==========================================================+
 			EXEC SQL SELECT count(c_id) INTO :namecnt
@@ -189,7 +188,6 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 		//------------------Patch No. 3----------------------//
 		//------------------ADDED BY YJ----------------------//
         row_t * r_cust_local1 = get_row(r_cust, WR);
-        printf("%d\n",count++);
         if (r_cust_local1 == NULL) {
         	printf("abort");
 			return finish(Abort);
