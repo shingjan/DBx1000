@@ -112,11 +112,11 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 	tmp_str = r_dist_local->get_value(D_NAME);
 	//------------------Patch No. 2----------------------//
 	//------------------ADDED BY YJ----------------------//
-    // tmp_str1 = r_dist_local->get_value(D_STREET_1);
-    // tmp_str2 = r_dist_local->get_value(D_STREET_2);
-    // tmp_str3 = r_dist_local->get_value(D_CITY);
-    // tmp_str4 = r_dist_local->get_value(D_STATE);
-    // tmp_str5 = r_dist_local->get_value(D_ZIP);
+    tmp_str1 = r_dist_local->get_value(D_STREET_1);
+    tmp_str2 = r_dist_local->get_value(D_STREET_2);
+    tmp_str3 = r_dist_local->get_value(D_CITY);
+    tmp_str4 = r_dist_local->get_value(D_STATE);
+    tmp_str5 = r_dist_local->get_value(D_ZIP);
     //------------------ADDED BY YJ----------------------//
 	memcpy(d_name, tmp_str, 10);
 	d_name[10] = '\0';
