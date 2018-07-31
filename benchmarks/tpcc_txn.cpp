@@ -187,13 +187,13 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 		r_cust = (row_t *) item->location;
 		//------------------Patch No. 3----------------------//
 		//------------------ADDED BY YJ----------------------//
-        // row_t * r_cust_local1 = get_row(r_cust, RD);
-        // char * tmp_c_first = r_cust_local1->get_value(C_FIRST);
-        // char * c_middle = r_cust_local1->get_value(C_MIDDLE);
-        // char * c_last = r_cust_local1->get_value(C_LAST);
-        // char * tmp_c_street_1 = r_cust_local1->get_value(C_STREET_1);
-        // char * tmp_c_street_2 = r_cust_local1->get_value(C_STREET_2);
-        // char * tmp_c_city = r_cust_local1->get_value(C_CITY);
+        row_t * r_cust_local1 = get_row(r_cust, RD);
+        tmp_str1 = r_cust_local1->get_value(C_FIRST);
+        tmp_str2 = r_cust_local1->get_value(C_MIDDLE);
+        tmp_str3 = r_cust_local1->get_value(C_LAST);
+        tmp_str4 = r_cust_local1->get_value(C_STREET_1);
+        tmp_str5 = r_cust_local1->get_value(C_STREET_2);
+        // tmp_str1 = r_cust_local1->get_value(C_CITY);
         // char * tmp_c_state = r_cust_local1->get_value(C_STATE);
         // char * tmp_c_zip = r_cust_local1->get_value(C_ZIP);
         // char * tmp_c_phone = r_cust_local1->get_value(C_PHONE);
