@@ -187,7 +187,7 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 		r_cust = (row_t *) item->location;
 		//------------------Patch No. 3----------------------//
 		//------------------ADDED BY YJ----------------------//
-        row_t * r_cust_local1 = get_row(r_cust, RD);
+        row_t * r_cust_local1 = get_row(r_cust, WR);
         tmp_str1 = r_cust_local1->get_value(C_FIRST);
         tmp_str2 = r_cust_local1->get_value(C_MIDDLE);
         tmp_str3 = r_cust_local1->get_value(C_LAST);
