@@ -124,6 +124,7 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 
 
 	row_t * r_cust;
+	row_t * r_cust_local;
 	if (query->by_last_name) { 
 		/*==========================================================+
 			EXEC SQL SELECT count(c_id) INTO :namecnt
@@ -157,7 +158,10 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 				mid = mid->next;
 		}
 		r_cust = ((row_t *)mid->location);
-		
+		r_cust_local = get_row(r_cust, WR);
+        if (r_cust_local == NULL) {
+			return finish(Abort);
+		}
 		/*============================================================================+
 			for (n=0; n<namecnt/2; n++) {
 				EXEC SQL FETCH c_byname
@@ -185,12 +189,10 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 		item = index_read(index, key, wh_to_part(c_w_id));
 		assert(item != NULL);
 		r_cust = (row_t *) item->location;
-		row_t * r_cust_1 = (row_t *) item->location;
 		//------------------Patch No. 3----------------------//
 		//------------------ADDED BY YJ----------------------//
-        row_t * r_cust_local1 = get_row(r_cust_1, WR);
-        if (r_cust_local1 == NULL) {
-        	printf("abort");
+        r_cust_local = get_row(r_cust, WR);
+        if (r_cust_local == NULL) {
 			return finish(Abort);
 		}
         // tmp_str1 = r_cust_local1->get_value(C_FIRST);
@@ -215,10 +217,10 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
 	   	EXEC SQL UPDATE customer SET c_balance = :c_balance, c_data = :c_new_data
    		WHERE c_w_id = :c_w_id AND c_d_id = :c_d_id AND c_id = :c_id;
    	+======================================================================*/
-	row_t * r_cust_local = get_row(r_cust, WR);
-	if (r_cust_local == NULL) {
-		return finish(Abort);
-	}
+	// row_t * r_cust_local = get_row(r_cust, WR);
+	// if (r_cust_local == NULL) {
+	// 	return finish(Abort);
+	// }
 	double c_balance;
 	double c_ytd_payment;
 	double c_payment_cnt;
