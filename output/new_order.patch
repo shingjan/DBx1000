@@ -1,0 +1,157 @@
+331c331,332
+< 	
+---
+> 	//char * c_last;
+> 	//char * c_credit;
+333,341c334,336
+< 
+< 	//------------------Patch No. 6----------------------//
+< 	//----------------Uncommented by YJ------------------//
+< 	char * c_last;
+< 	char * c_credit;
+< 	c_last = r_cust_local->get_value(C_LAST);
+< 	c_credit = r_cust_local->get_value(C_CREDIT);
+<  	//----------------Uncommented by YJ------------------//
+< 
+---
+> 	//c_last = r_cust_local->get_value(C_LAST);
+> 	//c_credit = r_cust_local->get_value(C_CREDIT);
+>  	
+357,363c352
+< 
+< 	//------------------Patch No. 7----------------------//
+< 	//----------------Uncommented by YJ------------------//
+< 	double d_tax;
+< 	d_tax = *(double *) r_dist_local->get_value(D_TAX);
+< 	//----------------Uncommented by YJ------------------//
+< 
+---
+> 	//double d_tax;
+364a354
+> 	//d_tax = *(double *) r_dist_local->get_value(D_TAX);
+373,390c363,374
+< 
+< 	//------------------Patch No. 8----------------------//
+< 	//----------------Uncommented by YJ------------------//
+< 	row_t * r_order;
+< 	uint64_t row_id;
+< 	_wl->t_order->get_new_row(r_order, 0, row_id);
+< 	r_order->set_value(O_ID, o_id);
+< 	r_order->set_value(O_C_ID, c_id);
+< 	r_order->set_value(O_D_ID, d_id);
+< 	r_order->set_value(O_W_ID, w_id);
+< 	int64_t date = 2013;
+< 	r_order->set_value(O_ENTRY_D, date);
+< 	r_order->set_value(O_OL_CNT, ol_cnt);
+< 	int64_t all_local = (remote? 0 : 1);
+< 	r_order->set_value(O_ALL_LOCAL, all_local);
+< 	insert_row(r_order, _wl->t_order);
+< 	//----------------Uncommented by YJ------------------//
+< 
+---
+> //	row_t * r_order;
+> //	uint64_t row_id;
+> //	_wl->t_order->get_new_row(r_order, 0, row_id);
+> //	r_order->set_value(O_ID, o_id);
+> //	r_order->set_value(O_C_ID, c_id);
+> //	r_order->set_value(O_D_ID, d_id);
+> //	r_order->set_value(O_W_ID, w_id);
+> //	r_order->set_value(O_ENTRY_D, o_entry_d);
+> //	r_order->set_value(O_OL_CNT, ol_cnt);
+> //	int64_t all_local = (remote? 0 : 1);
+> //	r_order->set_value(O_ALL_LOCAL, all_local);
+> //	insert_row(r_order, _wl->t_order);
+395,405c379,384
+< 
+<     //------------------Patch No. 9----------------------//
+< 	//----------------Uncommented by YJ------------------//
+< 	row_t * r_no;
+< 	_wl->t_neworder->get_new_row(r_no, 0, row_id);
+< 	r_no->set_value(NO_O_ID, o_id);
+< 	r_no->set_value(NO_D_ID, d_id);
+< 	r_no->set_value(NO_W_ID, w_id);
+< 	insert_row(r_no, _wl->t_neworder);
+< 	//----------------Uncommented by YJ------------------//
+< 
+---
+> //	row_t * r_no;
+> //	_wl->t_neworder->get_new_row(r_no, 0, row_id);
+> //	r_no->set_value(NO_O_ID, o_id);
+> //	r_no->set_value(NO_D_ID, d_id);
+> //	r_no->set_value(NO_W_ID, w_id);
+> //	insert_row(r_no, _wl->t_neworder);
+426a406,407
+> 		//char * i_name;
+> 		//char * i_data;
+428,435c409,410
+< 
+< 		//------------------Patch No. 10----------------------//
+< 		//----------------Uncommented by YJ------------------//
+< 		char * i_name;
+< 		char * i_data;
+< 		i_name = r_item_local->get_value(I_NAME);
+< 		i_data = r_item_local->get_value(I_DATA);
+< 		//----------------Uncommented by YJ------------------//
+---
+> 		//i_name = r_item_local->get_value(I_NAME);
+> 		//i_data = r_item_local->get_value(I_DATA);
+468a444
+> 		//char * s_data = "test";
+473,488c449
+< 
+< 		//------------------Patch No. 11----------------------//
+< 		//----------------Added by YJ------------------//
+< 		char * s_dist_01 = r_stock_local->get_value(S_DIST_01);
+< 		char * s_dist_02 = r_stock_local->get_value(S_DIST_02);
+< 		char * s_dist_03 = r_stock_local->get_value(S_DIST_03);
+< 		char * s_dist_04 = r_stock_local->get_value(S_DIST_04);
+< 		char * s_dist_05 = r_stock_local->get_value(S_DIST_05);
+< 		char * s_dist_06 = r_stock_local->get_value(S_DIST_06);
+< 		char * s_dist_07 = r_stock_local->get_value(S_DIST_07);
+< 		char * s_dist_08 = r_stock_local->get_value(S_DIST_08);
+< 		char * s_dist_09 = r_stock_local->get_value(S_DIST_09);
+< 		char * s_dist_10 = r_stock_local->get_value(S_DIST_10);
+< 		char * s_data = r_stock_local->get_value(S_DATA);
+< 		//----------------Added by YJ------------------//
+< 
+---
+> 		//s_data = r_stock_local->get_value(S_DATA);
+513,523c474,481
+< 
+< 		//------------------Patch No. 12----------------------//
+< 		//----------------Uncommented by YJ------------------//
+< 		row_t * r_ol;
+< 		uint64_t row_id;
+< 		_wl->t_orderline->get_new_row(r_ol, 0, row_id);
+< 		r_ol->set_value(OL_O_ID, &o_id);
+< 		r_ol->set_value(OL_D_ID, &d_id);
+< 		r_ol->set_value(OL_W_ID, &w_id);
+< 		r_ol->set_value(OL_NUMBER, &ol_number);
+< 		r_ol->set_value(OL_I_ID, &ol_i_id);
+---
+> //		row_t * r_ol;
+> //		uint64_t row_id;
+> //		_wl->t_orderline->get_new_row(r_ol, 0, row_id);
+> //		r_ol->set_value(OL_O_ID, &o_id);
+> //		r_ol->set_value(OL_D_ID, &d_id);
+> //		r_ol->set_value(OL_W_ID, &w_id);
+> //		r_ol->set_value(OL_NUMBER, &ol_number);
+> //		r_ol->set_value(OL_I_ID, &ol_i_id);
+525,529c483,487
+< 		int w_tax=1, d_tax=1;
+< 		int64_t ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
+< 		r_ol->set_value(OL_SUPPLY_W_ID, &ol_supply_w_id);
+< 		r_ol->set_value(OL_QUANTITY, &ol_quantity);
+< 		r_ol->set_value(OL_AMOUNT, &ol_amount);
+---
+> //		int w_tax=1, d_tax=1;
+> //		int64_t ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
+> //		r_ol->set_value(OL_SUPPLY_W_ID, &ol_supply_w_id);
+> //		r_ol->set_value(OL_QUANTITY, &ol_quantity);
+> //		r_ol->set_value(OL_AMOUNT, &ol_amount);
+531,533c489
+< 		insert_row(r_ol, _wl->t_orderline);
+< 		//----------------Uncommented by YJ------------------//
+< 
+---
+> //		insert_row(r_ol, _wl->t_orderline);
