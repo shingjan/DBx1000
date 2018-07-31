@@ -380,7 +380,8 @@ RC tpcc_txn_man::run_new_order(tpcc_query * query) {
 	r_order->set_value(O_C_ID, c_id);
 	r_order->set_value(O_D_ID, d_id);
 	r_order->set_value(O_W_ID, w_id);
-	r_order->set_value(O_ENTRY_D, o_entry_d);
+	int64_t date = 2013;
+	r_order->set_value(O_ENTRY_D, date);
 	r_order->set_value(O_OL_CNT, ol_cnt);
 	int64_t all_local = (remote? 0 : 1);
 	r_order->set_value(O_ALL_LOCAL, all_local);
@@ -529,7 +530,7 @@ RC tpcc_txn_man::run_new_order(tpcc_query * query) {
 #endif		
 		insert_row(r_ol, _wl->t_orderline);
 		//----------------Uncommented by YJ------------------//
-		
+
 	}
 	assert( rc == RCOK );
 	return finish(rc);
