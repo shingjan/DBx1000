@@ -207,7 +207,7 @@ RC tpcc_txn_man::run_payment(tpcc_query * query) {
         char * tmp_c_credit = r_cust_local->get_value(C_CREDIT);
         char * tmp_credit_lim = r_cust_local->get_value(C_CREDIT_LIM);
         char * tmp_c_discount = r_cust_local->get_value(C_DISCOUNT);
-        double tmp_c_balance = r_cust_local->get_value(C_BALANCE);
+        char * tmp_c_balance = r_cust_local->get_value(C_BALANCE);
         char * tmp_c_since = r_cust_local->get_value(C_SINCE);
         //------------------ADDED BY YJ----------------------//
 	}
