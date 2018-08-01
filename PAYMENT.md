@@ -12,15 +12,15 @@ TPCC workloads generation with Hash Index
     
     Summary:
 
-        1. 11 SQL statements in total. Statements 1, 3, 6, and 10 are complete.
-        2. Statements 2, 4 and 8 are implemented but incomplete. (Fixed in source code)
-        3. Statements 9 and 11 are implemented but commented. (Fixed in source code) 
-        4. Statements 5 and 7 are not implemented.
+        - 11 SQL statements in total. Statements 1, 3, 6, and 10 are complete.
+        - Statements 2, 4 and 8 are implemented but incomplete. (Fixed in source code)
+        - Statements 9 and 11 are implemented but commented. (Fixed in source code) 
+        - Statements 5 and 7 are not implemented.
 
-    1.
+    - 1.
 
     ~~~sql
-    EXEC SQL UPDATE warehouse SET w_ytd = w_ytd + :h_amount <br>
+        EXEC SQL UPDATE warehouse SET w_ytd = w_ytd + :h_amount 
             WHERE w_id=:w_id;
     ~~~ 
         
@@ -50,13 +50,13 @@ TPCC workloads generation with Hash Index
         }
     ~~~
     
-    2.
+    - 2.
 
     ~~~sql
-    EXEC SQL SELECT w_street_1, w_street_2, w_city, w_state, w_zip, w_name <br>
-        INTO :w_street_1, :w_street_2, :w_city, :w_state, :w_zip, :w_name <br>
-        FROM warehouse <br>
-        WHERE w_id=:w_id;
+        EXEC SQL SELECT w_street_1, w_street_2, w_city, w_state, w_zip, w_name 
+            INTO :w_street_1, :w_street_2, :w_city, :w_state, :w_zip, :w_name 
+            FROM warehouse 
+            WHERE w_id=:w_id;
     ~~~
         
     ~~~c++
@@ -64,12 +64,13 @@ TPCC workloads generation with Hash Index
         //HERE ONLY W_NAME IS RETRIVED. OTHER VALUES SHOULD BE RETRIVED. 
         //NOT USED ALTHOUGH, ACCORDING TO SQL STATEMENT NO.2
         char * tmp_str = r_wh_local->get_value(W_NAME);
+        //------------------Patch No. 1----------------------//
         //------------------ADDED BY YJ----------------------//
-        //char * tmp_str1 = r_wh_local->get_value(W_STREET_1);
-        //char * tmp_str2 = r_wh_local->get_value(W_STREET_2);
-        //char * tmp_str3 = r_wh_local->get_value(W_CITY);
-        //char * tmp_str4 = r_wh_local->get_value(W_STATE);
-        //char * tmp_str5 = r_wh_local->get_value(W_ZIP);
+        char * tmp_str1 = r_wh_local->get_value(W_STREET_1);
+        char * tmp_str2 = r_wh_local->get_value(W_STREET_2);
+        char * tmp_str3 = r_wh_local->get_value(W_CITY);
+        char * tmp_str4 = r_wh_local->get_value(W_STATE);
+        char * tmp_str5 = r_wh_local->get_value(W_ZIP);
         //------------------ADDED BY YJ----------------------//
         memcpy(w_name, tmp_str, 10);
         w_name[10] = '\0';
@@ -114,12 +115,13 @@ TPCC workloads generation with Hash Index
         //HERE ONLY D_NAME IS RETRIVED. OTHER VALUES SHOULD BE RETRIVED. 
         //NOT USED ALTHOUGH, ACCORDING TO SQL STATEMENT NO.4
         tmp_str = r_dist_local->get_value(D_NAME);
+        //------------------Patch No. 2----------------------//
         //------------------ADDED BY YJ----------------------//
-        //char * tmp_str1 = r_dist_local->get_value(D_STREET_1);
-        //char * tmp_str2 = r_dist_local->get_value(D_STREET_2);
-        //char * tmp_str3 = r_dist_local->get_value(D_CITY);
-        //char * tmp_str4 = r_dist_local->get_value(D_STATE);
-        //char * tmp_str5 = r_dist_local->get_value(D_ZIP);
+        tmp_str1 = r_dist_local->get_value(D_STREET_1);
+        tmp_str2 = r_dist_local->get_value(D_STREET_2);
+        tmp_str3 = r_dist_local->get_value(D_CITY);
+        tmp_str4 = r_dist_local->get_value(D_STATE);
+        tmp_str5 = r_dist_local->get_value(D_ZIP);
         //------------------ADDED BY YJ----------------------//
         memcpy(d_name, tmp_str, 10);
         d_name[10] = '\0';
