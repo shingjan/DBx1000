@@ -35,3 +35,11 @@ YCSB workloads generation
     - Initialize transactions with 16 YCSB queries each
     - For each transaction, there is a int64 txnid and transaction manager
     - Initialize thread list with THREAD_CNT
+
+- Patch
+    ycsb_txn.cpp - line 72
+    In the previous implementation, the data being modified hadn't been written back to the table.
+    //------------------Patch No. 1----------------------//
+    //------------------ADDED BY YJ----------------------//
+    row->set_data(data, 8);
+    //------------------ADDED BY YJ----------------------//
