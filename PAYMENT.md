@@ -26,7 +26,7 @@ TPCC workloads generation with Hash Index
         - Statements 9 and 11 are implemented but commented. (Fixed in source code) 
         - Statements 5 and 7 are not implemented.
 
-    - 1.
+    - SQL statement 1
 
     ~~~sql
         EXEC SQL UPDATE warehouse SET w_ytd = w_ytd + :h_amount 
@@ -59,7 +59,7 @@ TPCC workloads generation with Hash Index
         }
     ~~~
     
-    - 2.
+    - SQL statement 2 with Patch No.1
 
     ~~~sql
         EXEC SQL SELECT w_street_1, w_street_2, w_city, w_state, w_zip, w_name 
@@ -85,7 +85,7 @@ TPCC workloads generation with Hash Index
         w_name[10] = '\0';
     ~~~
 
-    3.
+    - SQL statement 3
 
     ~~~sql
     EXEC SQL UPDATE district SET d_ytd = d_ytd + :h_amount <br>
@@ -107,7 +107,7 @@ TPCC workloads generation with Hash Index
         r_dist_local->set_value(D_YTD, d_ytd + query->h_amount);
     ~~~
 
-    4.
+    - SQL statement 4 with Patch No. 2
 
     ~~~sql
     EXEC SQL SELECT d_street_1, d_street_2, d_city, d_state, d_zip, d_name 
@@ -136,15 +136,17 @@ TPCC workloads generation with Hash Index
         d_name[10] = '\0';
     ~~~
 
-    5. if(byname) 
+    - SQL statement 5, not implemented
+
     ~~~sql
+    if(byname)
         -- This SQL statement is not implemented in DBx1000
         EXEC SQL SELECT count(c_id) INTO :namecnt
             FROM customer
             WHERE c_last=:c_last AND c_d_id=:c_d_id AND c_w_id=:c_w_id;
     ~~~
 
-    6.
+    - SQL statement 6
 
     ~~~sql
         EXEC SQL DECLARE c_byname CURSOR FOR
@@ -176,7 +178,7 @@ TPCC workloads generation with Hash Index
             r_cust = ((row_t *)mid->location);       
     ~~~
 
-    7.
+    - SQL statement 7, not implemented
 
     ~~~~sql
         -- THIS SQL STATEMMENT IS NOT IMPLEMENTED IN DBx1000
@@ -189,7 +191,7 @@ TPCC workloads generation with Hash Index
         EXEC SQL CLOSE c_byname;
     ~~~~
 
-    8. else
+    - SQL statement 8 with Patch No. 3
     ~~~~sql
         EXEC SQL SELECT c_first, c_middle, c_last, c_street_1, c_street_2,
             c_city, c_state, c_zip, c_phone, c_credit, c_credit_lim,
@@ -207,30 +209,33 @@ TPCC workloads generation with Hash Index
         item = index_read(index, key, wh_to_part(c_w_id));
         assert(item != NULL);
         r_cust = (row_t *) item->location;
-        //ONLY THE POINTER OF THIS ROW IS RETRIVED.
-        //NO VALID VALUE IS RETRIVED 
+        //------------------Patch No. 3----------------------//
         //------------------ADDED BY YJ----------------------//
-        //row_t * r_cust_local = get_row(r_cust, RD);
-        //char * tmp_str1 = r_cust_local->get_value(C_FIRST);
-        //char * tmp_str2 = r_cust_local->get_value(C_MIDDLE);
-        //char * tmp_str3 = r_cust_local->get_value(C_LAST);
-        //char * tmp_str4 = r_cust_local->get_value(C_STREET_1);
-        //char * tmp_str5 = r_cust_local->get_value(C_STREET_2);
-        //char * tmp_str5 = r_cust_local->get_value(C_CITY);
-        //char * tmp_str5 = r_cust_local->get_value(C_STATE);
-        //char * tmp_str5 = r_cust_local->get_value(C_ZIP);
-        //char * tmp_str5 = r_cust_local->get_value(C_PHONE);
-        //char * tmp_str5 = r_cust_local->get_value(C_CREDIT);
-        //char * tmp_str5 = r_cust_local->get_value(C_CREDIT_LIM);
-        //char * tmp_str5 = r_cust_local->get_value(C_DISCOUNT);
-        //char * tmp_str5 = r_cust_local->get_value(C_BALANCE);
-        //char * tmp_str5 = r_cust_local->get_value(C_SINCE);
+        r_cust_local = get_row(r_cust, WR);
+        if (r_cust_local == NULL) {
+            return finish(Abort);
+        }
+        tmp_str1 = r_cust_local->get_value(C_FIRST);
+        tmp_str2 = r_cust_local->get_value(C_MIDDLE);
+        tmp_str3 = r_cust_local->get_value(C_LAST);
+        tmp_str4 = r_cust_local->get_value(C_STREET_1);
+        tmp_str5 = r_cust_local->get_value(C_STREET_2);
+        char * tmp_c_city = r_cust_local->get_value(C_CITY);
+        char * tmp_c_state = r_cust_local->get_value(C_STATE);
+        char * tmp_c_zip = r_cust_local->get_value(C_ZIP);
+        char * tmp_c_phone = r_cust_local->get_value(C_PHONE);
+        char * tmp_c_credit = r_cust_local->get_value(C_CREDIT);
+        char * tmp_credit_lim = r_cust_local->get_value(C_CREDIT_LIM);
+        char * tmp_c_discount = r_cust_local->get_value(C_DISCOUNT);
+        char * tmp_c_balance = r_cust_local->get_value(C_BALANCE);
+        char * tmp_c_since = r_cust_local->get_value(C_SINCE);
         //------------------ADDED BY YJ----------------------//
     ~~~
 
-    9. if ( strstr(c_credit, "BC") ) 
+    - SQL statement 9 with Patch No. 4
     
     ~~~sql
+    if ( strstr(c_credit, "BC") ) 
             EXEC SQL SELECT c_data
             INTO :c_data
             FROM customer
@@ -238,17 +243,19 @@ TPCC workloads generation with Hash Index
     ~~~
 
     ~~~c++
-    //IMPLEMENTATION OF THIS SQL STATEMENT IS COMPLETED BUT COMMENTED OUT IN DBx1000
-    //      char c_new_data[501];
-    //      sprintf(c_new_data,"| %4d %2d %4d %2d %4d $%7.2f",
-    //          c_id, c_d_id, c_w_id, d_id, w_id, query->h_amount);
-    //      char * c_data = r_cust->get_value("C_DATA");
-    //      strncat(c_new_data, c_data, 500 - strlen(c_new_data));
-    //      r_cust->set_value("C_DATA", c_new_data);
+        //------------------Patch No. 4----------------------//
+        //----------------Uncommented by YJ------------------//
+        char c_new_data[501];
+        //sprintf(c_new_data,"| %4d %2d %4d %2d %4d $%7.2f",
+        //      c_id, c_d_id, c_w_id, d_id, w_id, query->h_amount);
+        char * c_data = r_cust->get_value("C_DATA");
+        strncat(c_new_data, c_data, 500 - strlen(c_new_data));
+        r_cust->set_value("C_DATA", c_new_data);
+        //----------------Uncommented by YJ------------------//
             
     ~~~
 
-    10. else
+    10. SQL Statement 10
 
     ~~~sql
         EXEC SQL UPDATE customer SET c_balance = :c_balance, c_data = :c_new_data
@@ -272,7 +279,7 @@ TPCC workloads generation with Hash Index
     r_cust_local->set_value(C_PAYMENT_CNT, c_payment_cnt + 1);
     ~~~
 
-    11. 
+    - SQL statement 11 with Patch No. 5
 
     ~~~sql
       EXEC SQL INSERT INTO
@@ -281,20 +288,22 @@ TPCC workloads generation with Hash Index
     ~~~
 
     ~~~c++
-    //IMPLEMENTATION OF THIS SQL STATEMENT IS COMPLETED BUT COMMENTED OUT IN DBx1000
-    //  row_t * r_hist;
-    //  uint64_t row_id;
-    //  _wl->t_history->get_new_row(r_hist, 0, row_id);
-    //  r_hist->set_value(H_C_ID, c_id);
-    //  r_hist->set_value(H_C_D_ID, c_d_id);
-    //  r_hist->set_value(H_C_W_ID, c_w_id);
-    //  r_hist->set_value(H_D_ID, d_id);
-    //  r_hist->set_value(H_W_ID, w_id);
-    //  int64_t date = 2013;        
-    //  r_hist->set_value(H_DATE, date);
-    //  r_hist->set_value(H_AMOUNT, h_amount);
-    #if !TPCC_SMALL
-    //  r_hist->set_value(H_DATA, h_data);
-    #endif
-    //  insert_row(r_hist, _wl->t_history); 
+    //------------------Patch No. 5----------------------//
+    //----------------Uncommented by YJ------------------//
+    row_t * r_hist;
+    uint64_t row_id;
+    _wl->t_history->get_new_row(r_hist, 0, row_id);
+    r_hist->set_value(H_C_ID, query->c_id);
+    r_hist->set_value(H_C_D_ID, query->c_d_id);
+    r_hist->set_value(H_C_W_ID, c_w_id);
+    r_hist->set_value(H_D_ID, query->d_id);
+    r_hist->set_value(H_W_ID, w_id);
+    int64_t date = 2013;        
+    r_hist->set_value(H_DATE, date);
+    r_hist->set_value(H_AMOUNT, query->h_amount);
+#if !TPCC_SMALL
+    r_hist->set_value(H_DATA, h_data);
+#endif
+    insert_row(r_hist, _wl->t_history);
+    //----------------Uncommented by YJ------------------//
     ~~~
