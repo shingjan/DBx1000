@@ -68,7 +68,10 @@ RC ycsb_txn_man::run_txn(base_query * query) {
 //					for (int fid = 0; fid < schema->get_field_cnt(); fid++) {
 						int fid = 0;
 						char * data = row->get_data();
+						std::cout<<data;
 						*(uint64_t *)(&data[fid * 10]) = 0;
+						data = row->get_data();
+						std::cout<<data;
 //					}
                 } 
             }

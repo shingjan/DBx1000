@@ -2,7 +2,16 @@ TPCC workloads generation with Hash Index
 -----------------------------------------
 
 - Summary
-    * Schema: 9 tables (Warehouse, Custormer etc.): 
+    * Schema: 9 tables (
+    - item
+    - Warehouse (W) = 100
+        - stock = W x 100k = 100 x 100 x 40 (k) = 400,000
+        - dist
+          - cust
+          - hist
+          - order 
+          - new order
+          - order lineWarehouse(W) = 100, Stock = W x 100k = 100 x 100 x 40 = 400,000): 
     
     ![Alt text](/img/TPCC_tables.PNG?raw=true "TPCC tables")
     
