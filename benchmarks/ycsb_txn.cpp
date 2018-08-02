@@ -72,7 +72,7 @@ RC ycsb_txn_man::run_txn(base_query * query) {
 						std::cout<<data<< '\n';
 						data = row->get_data();
 						std::cout<<data<< '\n';
-						row->set_data(fid, data);
+						row->set_data(data, fid);
 						data = row->get_data();
 						std::cout<<data<< '\n';
 //					}
