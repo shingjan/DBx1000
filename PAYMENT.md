@@ -255,7 +255,7 @@ TPCC workloads generation with Hash Index
             
     ~~~
 
-    10. SQL Statement 10
+    - SQL Statement 10
 
     ~~~sql
         EXEC SQL UPDATE customer SET c_balance = :c_balance, c_data = :c_new_data
@@ -301,9 +301,9 @@ TPCC workloads generation with Hash Index
     int64_t date = 2013;        
     r_hist->set_value(H_DATE, date);
     r_hist->set_value(H_AMOUNT, query->h_amount);
-#if !TPCC_SMALL
+    #if !TPCC_SMALL
     r_hist->set_value(H_DATA, h_data);
-#endif
+    #endif
     insert_row(r_hist, _wl->t_history);
     //----------------Uncommented by YJ------------------//
     ~~~
