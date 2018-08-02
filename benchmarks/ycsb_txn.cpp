@@ -70,11 +70,11 @@ RC ycsb_txn_man::run_txn(base_query * query) {
 						char * data = row->get_data();
 						*(uint64_t *)(&data[fid * 10]) = 0;
 						std::cout<<sizeof data<< '\n';
+						row->set_data(data, 8);
+						//std::cout<<data<< '\n';
+						//row->set_data(data, fid);
 						data = row->get_data();
 						std::cout<<data<< '\n';
-						//row->set_data(data, fid);
-						//data = row->get_data();
-						//std::cout<<data<< '\n';
 //					}
                 } 
             }
