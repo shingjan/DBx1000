@@ -2,7 +2,7 @@
 DBx1000 BENCHMARK
 ==============
 
-** General Features **
+**General Features**
 
   DBx1000 is a OLTP database benchmark with the following features.
   
@@ -22,7 +22,7 @@ DBx1000 BENCHMARK
 	
 
 
-** Config File **
+**Config File**
 
 DBx1000 benchmark has the following parameters in the config file. Parameters with a * sign should not be changed.
 
@@ -34,14 +34,14 @@ DBx1000 benchmark has the following parameters in the config file. Parameters wi
   - WARMUP		: number of transactions to run for warmup
   - WORKLOAD		: workload supported (TPCC or YCSB)
   - THREAD_ALLOC	: per thread allocator. 
-  - ** MEM_PAD**		: enable memory padding to avoid false sharing.
+  - **MEM_PAD**		: enable memory padding to avoid false sharing.
   - MEM_ALLIGN	: allocated blocks are alligned to MEM_ALLIGN bytes
   - PRT_LAT_DISTR	: print out latency distribution of transactions
   - CC_ALG		: concurrency control algorithm
-  - ** ROLL_BACK**		: roll back the modifications if a transaction aborts.
+  - **ROLL_BACK**		: roll back the modifications if a transaction aborts.
   - ENABLE_LATCH  : enable latching in btree index
-  - ** CENTRAL_INDEX** : centralized index structure
-  - ** CENTRAL_MANAGER**	: centralized lock/timestamp manager
+  - **CENTRAL_INDEX** : centralized index structure
+  - **CENTRAL_MANAGER**	: centralized lock/timestamp manager
   - INDEX_STRCT	: data structure for index. 
   - BTREE_ORDER	: fanout of each B-tree node
   - DL_TIMEOUT_LOOP	: the max waiting time in DL_DETECT. after timeout, deadlock will be detected.
@@ -50,9 +50,9 @@ DBx1000 benchmark has the following parameters in the config file. Parameters wi
   - MAX_WRITE_SET	: the max size of a write set in OCC.
   - MAX_ROW_PER_TXN	: max number of rows touched per transaction.
   - QUERY_INTVL	: the rate at which database queries come
-  - ** MAX_TXN_PER_PART **	: maximum transactions to run per partition.
+  - **MAX_TXN_PER_PART**	: maximum transactions to run per partition.
   
-  - ** *for YCSB Benchmark* **
+  - ***for YCSB Benchmark***
     - SYNTH_TABLE_SIZE	: table size = 2 X *SYNTH_TABLE_SIZE*
     - ZIPF_THETA	: theta in zipfian distribution (rows accessed follow zipfian distribution)
     - READ_PERC		: percentage of read queries
@@ -64,7 +64,7 @@ DBx1000 benchmark has the following parameters in the config file. Parameters wi
     - REQ_PER_QUERY	: number of queries per transaction
     - FIRST_PART_LOCAL	: with this being true, the first touched partition is always the local partition.
   
-  - ** *for TPCC Benchmark* **
+  - ***for TPCC Benchmark***
     - NUM_HW		: number of warehouses being modeled.
     - PERC_PAYMENT	: percentage of payment transactions.
     - DIST_PER_WARE	: number of districts in one warehouse
@@ -75,7 +75,7 @@ DBx1000 benchmark has the following parameters in the config file. Parameters wi
     - MIDDLE_LEN	: length of middle name
     - LASTNAME_LEN	: length of last name
 
-  ** !! centralized CC management should be ignored. **
+  **!! centralized CC management should be ignored.**
 
 1. Phlip Bernstein, Nathan Goodman, "Concurrency Control in Distributed Database Systems", Computing Surveys, June 1981
 2. H.T. Kung, John Robinson, "On Optimistic Methods for Concurrency Control", Transactions on Database Systems, June 1981
