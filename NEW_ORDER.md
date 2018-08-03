@@ -6,7 +6,7 @@
         2. Statements 1, 2, 6 and 7 are implemented but incomplete. (Fixed in source code)
         3. Statements 4, 5 and 9 are implemented but commented. (Fixed in source code)
 
-    1.
+    - SQL statement 1 w. Patch No. 6
 
     ~~~sql
     EXEC SQL SELECT c_discount, c_last, c_credit, w_tax
@@ -39,17 +39,18 @@
 
     double w_tax;
     uint64_t c_discount;
-    char * c_last;
-    char * c_credit;
     r_wh_local->get_value(W_TAX, w_tax); 
     r_cust_local->get_value(C_DISCOUNT, c_discount);
-    //AS THE AUTHOR CLAIMED, ONLY VALUES RETRIVED AND USED ARE ACTUALLY RETRIVED HERER
-    //HENCE, c_last AND c_credit ARE COMMENTED.
-    //c_last = r_cust_local->get_value(C_LAST);
-    //c_credit = r_cust_local->get_value(C_CREDIT);
+    //------------------Patch No. 6----------------------//
+    //----------------Uncommented by YJ------------------//
+    char * c_last;
+    char * c_credit;
+    c_last = r_cust_local->get_value(C_LAST);
+    c_credit = r_cust_local->get_value(C_CREDIT);
+    //----------------Uncommented by YJ------------------//
     ~~~
 
-    2 & 3. 
+    - SQL statement 2 & 3 w. Patch No. 7
 
     ~~~sql
     EXEC SQL SELECT d_next_o_id, d_tax
@@ -68,16 +69,19 @@
     if (r_dist_local == NULL) {
         return finish(Abort);
     }
-    //RETRIEVAL OF d_tax ARE COMMENTED
-    //double d_tax;
+
     int64_t o_id;
-    //d_tax = *(double *) r_dist_local->get_value(D_TAX);
     o_id = *(int64_t *) r_dist_local->get_value(D_NEXT_O_ID);
     o_id ++;
     r_dist_local->set_value(D_NEXT_O_ID, o_id);
+    //------------------Patch No. 7----------------------//
+    //----------------Uncommented by YJ------------------//
+    double d_tax;
+    d_tax = *(double *) r_dist_local->get_value(D_TAX);
+    //----------------Uncommented by YJ------------------//
     ~~~
 
-    4.
+    - SQL statement 4 w. Patch No. 8
 
     ~~~sql
     EXEC SQL INSERT INTO ORDERS (o_id, o_d_id, o_w_id, o_c_id, o_entry_d, o_ol_cnt, o_all_local)
@@ -85,22 +89,25 @@
     ~~~
 
     ~~~c++
-    //  IMPLEMENTATION OF THIS SQL STATEMENT IS COMMENTED
-    //  row_t * r_order;
-    //  uint64_t row_id;
-    //  _wl->t_order->get_new_row(r_order, 0, row_id);
-    //  r_order->set_value(O_ID, o_id);
-    //  r_order->set_value(O_C_ID, c_id);
-    //  r_order->set_value(O_D_ID, d_id);
-    //  r_order->set_value(O_W_ID, w_id);
-    //  r_order->set_value(O_ENTRY_D, o_entry_d);
-    //  r_order->set_value(O_OL_CNT, ol_cnt);
-    //  int64_t all_local = (remote? 0 : 1);
-    //  r_order->set_value(O_ALL_LOCAL, all_local);
-    //  insert_row(r_order, _wl->t_order);
+    //------------------Patch No. 8----------------------//
+    //----------------Uncommented by YJ------------------//
+    row_t * r_order;
+    uint64_t row_id;
+    _wl->t_order->get_new_row(r_order, 0, row_id);
+    r_order->set_value(O_ID, o_id);
+    r_order->set_value(O_C_ID, c_id);
+    r_order->set_value(O_D_ID, d_id);
+    r_order->set_value(O_W_ID, w_id);
+    int64_t date = 2013;
+    r_order->set_value(O_ENTRY_D, date);
+    r_order->set_value(O_OL_CNT, ol_cnt);
+    int64_t all_local = (remote? 0 : 1);
+    r_order->set_value(O_ALL_LOCAL, all_local);
+    insert_row(r_order, _wl->t_order);
+    //----------------Uncommented by YJ------------------//
     ~~~
 
-    5.
+    - SQL statement 5 w. Patch No. 9
 
     ~~~SQL
     EXEC SQL INSERT INTO NEW_ORDER (no_o_id, no_d_id, no_w_id)
@@ -108,17 +115,18 @@
     ~~~
 
     ~~~C++
-    //  IMPLEMENTATION OF THIS SQL STATEMENT IS COMMENTED
-    //  row_t * r_no;
-    //  _wl->t_neworder->get_new_row(r_no, 0, row_id);
-    //  r_no->set_value(NO_O_ID, o_id);
-    //  r_no->set_value(NO_D_ID, d_id);
-    //  r_no->set_value(NO_W_ID, w_id);
-    //  insert_row(r_no, _wl->t_neworder);  
+    //------------------Patch No. 9----------------------//
+    //----------------Uncommented by YJ------------------//
+    row_t * r_no;
+    _wl->t_neworder->get_new_row(r_no, 0, row_id);
+    r_no->set_value(NO_O_ID, o_id);
+    r_no->set_value(NO_D_ID, d_id);
+    r_no->set_value(NO_W_ID, w_id);
+    insert_row(r_no, _wl->t_neworder);
+    //----------------Uncommented by YJ------------------//  
     ~~~
 
-    6.
-    SQL statements 6 - 9 are in a for loop
+    - SQL statement 6 w. Patch No. 10
 
     ~~~sql
         EXEC SQL SELECT i_price, i_name , i_data
@@ -139,14 +147,17 @@
         }
         // RETRIEVAL OF i_name AND i_data ARE COMMENTED
         int64_t i_price;
-        //char * i_name;
-        //char * i_data;
         r_item_local->get_value(I_PRICE, i_price);
-        //i_name = r_item_local->get_value(I_NAME);
-        //i_data = r_item_local->get_value(I_DATA);
+        //------------------Patch No. 10----------------------//
+        //----------------Uncommented by YJ------------------//
+        char * i_name;
+        char * i_data;
+        i_name = r_item_local->get_value(I_NAME);
+        i_data = r_item_local->get_value(I_DATA);
+        //----------------Uncommented by YJ------------------//
     ~~~
 
-    7.
+    - SQL statement 7 w. Patch No. 11
     ~~~sql
         EXEC SQL SELECT s_quantity, s_data,
                 s_dist_01, s_dist_02, s_dist_03, s_dist_04, s_dist_05,
@@ -177,16 +188,27 @@
         #if !TPCC_SMALL
         int64_t s_ytd;
         int64_t s_order_cnt;
-        //char * s_data = "test";
         r_stock_local->get_value(S_YTD, s_ytd);
         r_stock_local->set_value(S_YTD, s_ytd + ol_quantity);
         r_stock_local->get_value(S_ORDER_CNT, s_order_cnt);
         r_stock_local->set_value(S_ORDER_CNT, s_order_cnt + 1);
-        //s_data = r_stock_local->get_value(S_DATA);
-        #endif
+        //------------------Patch No. 11----------------------//
+        //----------------Added by YJ------------------//
+        char * s_dist_01 = r_stock_local->get_value(S_DIST_01);
+        char * s_dist_02 = r_stock_local->get_value(S_DIST_02);
+        char * s_dist_03 = r_stock_local->get_value(S_DIST_03);
+        char * s_dist_04 = r_stock_local->get_value(S_DIST_04);
+        char * s_dist_05 = r_stock_local->get_value(S_DIST_05);
+        char * s_dist_06 = r_stock_local->get_value(S_DIST_06);
+        char * s_dist_07 = r_stock_local->get_value(S_DIST_07);
+        char * s_dist_08 = r_stock_local->get_value(S_DIST_08);
+        char * s_dist_09 = r_stock_local->get_value(S_DIST_09);
+        char * s_dist_10 = r_stock_local->get_value(S_DIST_10);
+        char * s_data = r_stock_local->get_value(S_DATA);
+        //----------------Added by YJ------------------//
     ~~~
 
-    8.
+    - SQL statement 8
 
     ~~~sql
         EXEC SQL UPDATE stock SET s_quantity = :s_quantity
@@ -204,7 +226,7 @@
         r_stock_local->set_value(S_QUANTITY, &quantity);
     ~~~
 
-    9.
+    - SQL statement 9 w. Patch No. 12
 
     ~~~sql
         EXEC SQL INSERT
@@ -217,22 +239,24 @@
     ~~~
 
     ~~~c++
-        //IMPLEMENTATION OF THIS SQL STATEMENT IS COMMENTED
+        //------------------Patch No. 12----------------------//
+        //----------------Uncommented by YJ------------------//
         // XXX district info is not inserted.
-        //      row_t * r_ol;
-        //      uint64_t row_id;
-        //      _wl->t_orderline->get_new_row(r_ol, 0, row_id);
-        //      r_ol->set_value(OL_O_ID, &o_id);
-        //      r_ol->set_value(OL_D_ID, &d_id);
-        //      r_ol->set_value(OL_W_ID, &w_id);
-        //      r_ol->set_value(OL_NUMBER, &ol_number);
-        //      r_ol->set_value(OL_I_ID, &ol_i_id);
+        row_t * r_ol;
+        uint64_t row_id;
+        _wl->t_orderline->get_new_row(r_ol, 0, row_id);
+        r_ol->set_value(OL_O_ID, &o_id);
+        r_ol->set_value(OL_D_ID, &d_id);
+        r_ol->set_value(OL_W_ID, &w_id);
+        r_ol->set_value(OL_NUMBER, &ol_number);
+        r_ol->set_value(OL_I_ID, &ol_i_id);
         #if !TPCC_SMALL
-        //      int w_tax=1, d_tax=1;
-        //      int64_t ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
-        //      r_ol->set_value(OL_SUPPLY_W_ID, &ol_supply_w_id);
-        //      r_ol->set_value(OL_QUANTITY, &ol_quantity);
-        //      r_ol->set_value(OL_AMOUNT, &ol_amount);
+        int w_tax=1, d_tax=1;
+        int64_t ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
+        r_ol->set_value(OL_SUPPLY_W_ID, &ol_supply_w_id);
+        r_ol->set_value(OL_QUANTITY, &ol_quantity);
+        r_ol->set_value(OL_AMOUNT, &ol_amount);
         #endif      
-        //      insert_row(r_ol, _wl->t_orderline);
+        insert_row(r_ol, _wl->t_orderline);
+        //----------------Uncommented by YJ------------------//
     ~~~
