@@ -24,7 +24,7 @@ DBx1000 BENCHMARK
 
 **Config File**
 
-DBx1000 benchmark has the following parameters in the config file. Parameters with a * sign should not be changed.
+DBx1000 benchmark has the following parameters in the config file. Parameters which are bold should not be changed.
 
   - CORE_CNT		: number of cores modeled in the system.
   - PART_CNT		: number of logical partitions in the system
@@ -50,7 +50,7 @@ DBx1000 benchmark has the following parameters in the config file. Parameters wi
   - MAX_WRITE_SET	: the max size of a write set in OCC.
   - MAX_ROW_PER_TXN	: max number of rows touched per transaction.
   - QUERY_INTVL	: the rate at which database queries come
-  - **MAX_TXN_PER_PART**	: maximum transactions to run per partition.
+  - MAX_TXN_PER_PART	: maximum transactions to run per partition.
   
   - ***for YCSB Benchmark***
     - SYNTH_TABLE_SIZE	: table size = 2 X *SYNTH_TABLE_SIZE*
