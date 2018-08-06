@@ -24,6 +24,28 @@ The DBMS can be run with
 
     ./rundb
 
+**Added by YJ**
+
+Above building procedures work well with Linux Subsystem on Windows 10. Errors thrown on __libs/libjemalloc.a__ since it is not built with __-fPIC__ flag. Since it is a pre-compiled lib file. Fix is simple. 
+
+Change 
+
+~~~c++
+-LDFLAGS = -Wall -L. -L./libs -pthread -g -lrt -std=c++0x -O3 -ljemalloc
+~~~
+
+To 
+
+~~~c++
+-LDFLAGS = -Wall -L. -pthread -g -lrt -std=c++0x -O3 -ljemalloc
+~~~
+
+in the Makefile. And install libjemalloc on Ubuntu via:
+
+~~~sh
+sudo apt-get update
+sudo apt-get install libjemalloc-dev
+~~~
 
 Configuration
 -------------
