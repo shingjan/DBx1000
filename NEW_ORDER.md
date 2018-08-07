@@ -1,4 +1,9 @@
-- **New Order Transactionn** (benchmark/tpcc_txn.cpp/tpcc_txn_man::run_new_order(tpcc_query * query))
+TPCC workloads generation, created by YJ
+-----------------------------------------
+
+- **New Order Transactionn** 
+    
+    - *benchmark/tpcc_txn.cpp/tpcc_txn_man::run_new_order(tpcc_query * query)*
 
     Summary:
 

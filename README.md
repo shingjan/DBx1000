@@ -24,29 +24,6 @@ The DBMS can be run with
 
     ./rundb
 
-**Added by YJ**
-
-Above building procedures work well with Linux Subsystem on Windows 10. Errors thrown on __libs/libjemalloc.a__ since it is not built with __-fPIC__ flag. Since it is a pre-compiled lib file. Fix is simple. 
-
-Change 
-
-~~~c++
--LDFLAGS = -Wall -L. -L./libs -pthread -g -lrt -std=c++0x -O3 -ljemalloc
-~~~
-
-To 
-
-~~~c++
--LDFLAGS = -Wall -L. -pthread -g -lrt -std=c++0x -O3 -ljemalloc
-~~~
-
-in the Makefile. And install libjemalloc on Ubuntu via:
-
-~~~sh
-sudo apt-get update
-sudo apt-get install libjemalloc-dev
-~~~
-
 Configuration
 -------------
 
@@ -62,8 +39,8 @@ Configurations can also be specified as command argument at runtime. Run the fol
     
     ./rundb -h
 
-Summary by YJ
-===============
+Summary by YJ - Begin
+=====================
 
 1. TPCC worklaods generation: [Payment](PAYMENT.md), [New Order](NEW_ORDER.md)
 2. [YCSB workloads generation](YCSB.md)
@@ -71,6 +48,30 @@ Summary by YJ
 4. [Configuration](CONFIG.md)
 5. [Benchmark Cassandra with Cassandra-stress & Cockroach with YCSB](http://htmlpreview.github.io/?https://github.com/shingjan/DBx1000/blob/master/Cassandra-Cockroach-Benchmark.html)
 6. [Discussion with Xiangyao, author of DBx1000](https://github.com/yxymit/DBx1000/issues/17)
+7. Compilation Process on Ubuntu node
 
+Above building procedures work well with Linux Subsystem on Windows 10. Errors thrown on __libs/libjemalloc.a__ since it is not built with __-fPIC__ flag. It is a pre-compiled lib file so fix is simple: 
+
+Change this line in Makefile from:
+
+~~~
+-LDFLAGS = -Wall -L. -L./libs -pthread -g -lrt -std=c++0x -O3 -ljemalloc
+~~~
+
+To 
+
+~~~
+-LDFLAGS = -Wall -L. -pthread -g -lrt -std=c++0x -O3 -ljemalloc
+~~~
+
+And install libjemalloc on Ubuntu via:
+
+~~~
+sudo apt-get update
+sudo apt-get install libjemalloc-dev
+~~~
+
+Summary by YJ - End
+===================
 
 

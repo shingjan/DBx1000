@@ -1,4 +1,4 @@
-TPCC workloads generation with Hash Index
+TPCC workloads generation, created by YJ
 -----------------------------------------
 
 - Summary
@@ -17,7 +17,9 @@ TPCC workloads generation with Hash Index
     
     * Only **Payment** and **New Order** transactions are modeled
 
-- **Payment Transactionn** (benchmark/tpcc_txn.cpp/tpcc_txn_man::run_payment(tpcc_query * query))
+- **Payment Transactionn** 
+
+    - *benchmark/tpcc_txn.cpp/tpcc_txn_man::run_payment(tpcc_query * query)*
     
     Summary:
 
