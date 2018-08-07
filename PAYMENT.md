@@ -34,6 +34,8 @@ TPCC workloads generation, created by YJ
         EXEC SQL UPDATE warehouse SET w_ytd = w_ytd + :h_amount 
             WHERE w_id=:w_id;
     ~~~ 
+
+    - Line 56 - 75
         
     ~~~c++
         key = query->w_id;
@@ -70,6 +72,8 @@ TPCC workloads generation, created by YJ
             WHERE w_id=:w_id;
     ~~~
         
+    - Line 76 - 79
+
     ~~~c++
         char w_name[11];
         //HERE ONLY W_NAME IS RETRIVED. OTHER VALUES SHOULD BE RETRIVED. 
@@ -93,7 +97,8 @@ TPCC workloads generation, created by YJ
     EXEC SQL UPDATE district SET d_ytd = d_ytd + :h_amount <br>
         WHERE d_w_id=:w_id AND d_id=:d_id;
     ~~~
-        
+      
+    - Line 84 - 95  
     ~~~c++
         key = distKey(query->d_id, query->d_w_id);
         item = index_read(_wl->i_district, key, wh_to_part(w_id));
@@ -117,11 +122,9 @@ TPCC workloads generation, created by YJ
         FROM district 
         WHERE d_w_id=:w_id AND d_id=:d_id;
     ~~~
-
+    
+    - Line 96 - 99
     ~~~c++
-        double d_ytd;
-        r_dist_local->get_value(D_YTD, d_ytd);
-        r_dist_local->set_value(D_YTD, d_ytd + query->h_amount);
         char d_name[11];
         //HERE ONLY D_NAME IS RETRIVED. OTHER VALUES SHOULD BE RETRIVED. 
         //NOT USED ALTHOUGH, ACCORDING TO SQL STATEMENT NO.4
@@ -160,6 +163,7 @@ TPCC workloads generation, created by YJ
             EXEC SQL OPEN c_byname;
     ~~~
 
+    - Line 125 - 141
     ~~~c++
             uint64_t key = custNPKey(query->c_last, query->c_d_id, query->c_w_id);
             // XXX: the list is not sorted. But let's assume it's sorted... 
@@ -205,6 +209,7 @@ TPCC workloads generation, created by YJ
             WHERE c_w_id=:c_w_id AND c_d_id=:c_d_id AND c_id=:c_id;
     ~~~~
 
+    - Line 165 - 169
     ~~~c++
         key = custKey(query->c_id, query->c_d_id, query->c_w_id);
         INDEX * index = _wl->i_customer_id;
@@ -244,6 +249,7 @@ TPCC workloads generation, created by YJ
             WHERE c_w_id=:c_w_id AND c_d_id=:c_d_id AND c_id=:c_id;
     ~~~
 
+    - Line 201 - 206
     ~~~c++
         //------------------Patch No. 4----------------------//
         //----------------Uncommented by YJ------------------//
@@ -264,6 +270,7 @@ TPCC workloads generation, created by YJ
         WHERE c_w_id = :c_w_id AND c_d_id = :c_d_id AND c_id = :c_id;
     ~~~
 
+    - Line 176 - 189
     ~~~c++
     row_t * r_cust_local = get_row(r_cust, WR);
     if (r_cust_local == NULL) {
@@ -289,6 +296,7 @@ TPCC workloads generation, created by YJ
       VALUES (:c_d_id, :c_w_id, :c_id, :d_id, :w_id, :datetime, :h_amount, :h_data);
     ~~~
 
+    - Line 222 - 236
     ~~~c++
     //------------------Patch No. 5----------------------//
     //----------------Uncommented by YJ------------------//

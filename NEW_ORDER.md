@@ -20,6 +20,7 @@ TPCC workloads generation, created by YJ
         WHERE w_id = :w_id AND c_w_id = w_id AND c_d_id = :d_id AND c_id = :c_id;
     ~~~
 
+    - Line 259 - 286
     ~~~c++
     key = w_id;
     index = _wl->i_warehouse; 
@@ -64,7 +65,7 @@ TPCC workloads generation, created by YJ
     EXEC SQL UPDATE d istrict SET d_next_o_id = :d_next_o_id + 1
         WHERE d_id = :d_id AN D d _w _id = :w _id ;
     ~~~
-
+    - Line 295 - 308
     ~~~c++
     key = distKey(d_id, w_id);
     item = index_read(_wl->i_district, key, wh_to_part(w_id));
@@ -92,7 +93,7 @@ TPCC workloads generation, created by YJ
     EXEC SQL INSERT INTO ORDERS (o_id, o_d_id, o_w_id, o_c_id, o_entry_d, o_ol_cnt, o_all_local)
         VALUES (:o_id, :d_id, :w_id, :c_id, :datetime, :o_ol_cnt, :o_all_local);
     ~~~
-
+    - Line 314 - 325
     ~~~c++
     //------------------Patch No. 8----------------------//
     //----------------Uncommented by YJ------------------//
@@ -118,7 +119,7 @@ TPCC workloads generation, created by YJ
     EXEC SQL INSERT INTO NEW_ORDER (no_o_id, no_d_id, no_w_id)
         VALUES (:o_id, :d_id, :w_id);
     ~~~
-
+    - Line 330 - 335
     ~~~C++
     //------------------Patch No. 9----------------------//
     //----------------Uncommented by YJ------------------//
@@ -139,7 +140,7 @@ TPCC workloads generation, created by YJ
             FROM item
             WHERE i_id = :ol_i_id;
     ~~~
-
+    - Line 347 - 361
     ~~~c++
         key = ol_i_id;
         item = index_read(_wl->i_item, key, 0);
@@ -173,7 +174,7 @@ TPCC workloads generation, created by YJ
             FROM stock
             WHERE s_i_id = :ol_i_id AND s_w_id = :ol_supply_w_id;
     ~~~
-
+    - Line 377 - 401
     ~~~c++
         uint64_t stock_key = stockKey(ol_i_id, ol_supply_w_id);
         INDEX * stock_index = _wl->i_stock;
@@ -220,7 +221,7 @@ TPCC workloads generation, created by YJ
             WHERE s_i_id = :ol_i_id
             AND s_w_id = :ol_supply_w_id;
     ~~~
-
+    - Line 407 - 413
     ~~~c++
         uint64_t quantity;
         if (s_quantity > ol_quantity + 10) {
@@ -242,7 +243,7 @@ TPCC workloads generation, created by YJ
                 :ol_i_id, :ol_supply_w_id,
                 :ol_quantity, :ol_amount, :ol_dist_info);
     ~~~
-
+    - Line 425 - 440
     ~~~c++
         //------------------Patch No. 12----------------------//
         //----------------Uncommented by YJ------------------//
